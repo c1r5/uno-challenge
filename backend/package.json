@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start:dev": "nodemon --watch src src/index.js"
+    "start:dev": "nodemon --watch src src/index.js",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "@apollo/server": "^4.7.4",

@@ -39,8 +39,15 @@
  */
 
 /**
- * @typedef {Object} ItemInput
+ * @typedef {Object} UpdateItemInput
  * @property {number} [itemId]
+ * @property {string} name
+ * @property {string} [description]
+ * @property {boolean} [completed]
+ */
+
+/**
+ * @typedef {Object} AddItemInput
  * @property {string} name
  * @property {string} [description]
  */
@@ -52,8 +59,8 @@
 
 /**
  * @typedef {Object} Mutation
- * @property {(_: any, variables: {values: ItemInput}) => Promise<Item>} addItem
- * @property {(_: any, variables: {values: ItemInput}) => Promise<Item>} updateItem
+ * @property {(_: any, variables: {values: AddItemInput}) => Promise<Item>} addItem
+ * @property {(_: any, variables: {values: UpdateItemInput}) => Promise<Item>} updateItem
  * @property {(_: any, variables: {itemId: number}) => Promise<boolean>} deleteItem
  */
 

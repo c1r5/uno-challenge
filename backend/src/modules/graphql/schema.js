@@ -15,10 +15,8 @@ export default `#graphql
   }
 
   input AddItemInput {
-    itemId: Int!
     name: String!
     description: String
-    completed: Boolean
   }
   
   input UpdateItemInput {
