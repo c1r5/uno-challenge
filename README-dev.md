@@ -66,3 +66,21 @@ yarn start
 ### Acesso
 - Frontend: [Pagina do projeto](http://localhost:3000)
 - backend: [GraphQL Playground](http://localhost:4000/graphql)
+
+---
+# Documentação detalhada sobre o Backend
+
+# 📚 Documentação detalhada sobre o Backend
+
+## Módulos
+
+- [Inicialização da aplicação - index.js](./backend/src/index.md)
+- [Servidor Apollo - server.js](./backend/src/modules/graphql/server.md)
+- [Schema GraphQL - schema.js](./backend/src/modules/graphql/schema.md)
+- [Resolvers GraphQL - resolvers.js](./backend/src/modules/graphql/resolvers.md)
+- [Fonte de dados - db.js](./backend/src/modules/item/infra/db/db.md)
+- [Repositório de Itens - item.repository.js](./backend/src/modules/item/infra/repositories/item.repository.md)
+- [Serviço de Itens - item.service.js](./backend/src/modules/item/application/services/item.service.md)
+- [Validações de Itens - validate_item.js](./backend/src/modules/item/domain/validate_item.md)
+- [Utilitários de Itens - item.utils.js](./backend/src/modules/item/application/utils/item.utils.md)
+- [Tipos JSDoc - types.js](./backend/src/modules/shared/types.md)
