@@ -12,5 +12,57 @@
 - Utilizei uma especie de arquitetura em camadas adaptada nesse caso mais simples para evitar overengineering
 - Event Driven Architecture para notificação
 
-## Feature Extra
-- Notificação de tasks não concluidas há N tempo.
+## Funcionalidades
+
+- Adicionar novos itens à lista.
+- Editar itens existentes.
+- Remover itens da lista.
+- Validar itens para evitar nomes duplicados ou campos vazios.
+- Filtrar itens por nome ou ID.
+- Persistência dos dados via arquivos JSON.
+
+---
+# Documentação backend
+
+## Setup local
+
+### Baixar
+Clone o repositório:
+```bash
+git clone https://github.com/c1r5/uno-challenge
+cd uno-challenge
+```
+### Instalar dependências
+No frontend:
+```bash
+cd frontend
+yarn install
+```
+---
+Variáveis de ambiente no frontend: 
+```
+REACT_APP_GRAPHQL_URI=http://localhost:4000/graphql
+``` 
+---
+No backend:
+```bash
+cd backend
+yarn install
+```
+---
+### Iniciar servidores
+No backend:
+```bash
+cd backend
+yarn start
+```
+---
+No frontend
+```bash
+cd frontend
+yarn start
+```
+---
+### Acesso
+- Frontend: [Pagina do projeto](http://localhost:3000)
+- backend: [GraphQL Playground](http://localhost:4000/graphql)
