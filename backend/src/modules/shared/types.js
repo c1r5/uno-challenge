@@ -15,6 +15,23 @@
  */
 
 /**
+ * @typedef {Object} EventPayload
+ * @property {?string} eventId
+ * @property {any} data
+ */
+
+/**
+ * @typedef {(payload: ?EventPayload) => Promise<void>} EventHandler
+ */ 
+
+/**
+ * @typedef {Object} EventBus
+ * @property {(event: string, handler: EventHandler) => void} subscribe
+ * @property {(event: string, handler: EventHandler) => void} unsubscribe 
+ * @property {(event: string, payload: ?EventPayload) => void} publish
+ */
+
+/**
  * @typedef {Object} Datasource
  * @property {Item[]} todolist
  * @property {() => Promise<void>} initialize
