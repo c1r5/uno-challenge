@@ -3,7 +3,7 @@
 ## Setup inicial
 - Fiz um fork do repositorio e Clonei na minha maquina local.
 - Ao executar o frontend meu primeiro problema foi na versão do Node onde identifiquei que precisaria fazer downgrade para a versão 16.
-- Ambientes levantados com sucesso (`frontend`, `serverless`)
+- Ambientes levantados com sucesso (`frontend`, `backend`)
 - .env configurado
 
 ## Metodos utilizados
