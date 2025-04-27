@@ -6,7 +6,11 @@
 - Ambientes levantados com sucesso (`frontend`, `serverless`)
 - .env configurado
 
-## Desenvolvimento
+## Metodos utilizados
 - Separei em modulos para melhor entendimento e quebrar o problema em partes menores
 - Criei um JSDocs para trabalhar com tipos sem precisar usar o typescript
-- Utilizei uma especie de arquitetura em camadas adaptada ao caso simples
+- Utilizei uma especie de arquitetura em camadas adaptada nesse caso mais simples para evitar overengineering
+- Event Driven Architecture para notificação
+
+## Feature Extra
+- Notificação de tasks não concluidas há N tempo.

@@ -1,33 +1,40 @@
 export default `#graphql
 
   type Item {
-    id: Int!
-    name: String!
+    itemId: Int
+    name: String
     description: String
-    completed: Boolean!
-    createdAt: String!
-    updatedAt: String!
+    completed: Boolean
+    createdAt: String
+    updatedAt: String
   }
 
-  input ItemFilterInput {
-    id: Int
+  input Filter {
+    itemId: Int
     name: String
   }
 
-  input ItemInput {
-    id: Int!
+  input AddItemInput {
+    itemId: Int!
+    name: String!
+    description: String
+    completed: Boolean
+  }
+  
+  input UpdateItemInput {
+    itemId: Int!
     name: String
     description: String
     completed: Boolean
   }
-
+  
   type Query {
-    getTodoList(filter: ItemFilterInput, listId: Int!): [Item!]!
+    getTodoList(filter: Filter): [Item!]!
   }
-
+  
   type Mutation {
-    addItem(value: ItemInput!, listId: Int!): Item!
-    updateItem(value: ItemInput!, listId: Int!): Item!
-    deleteItem(id: Int!, listId: Int!): Boolean!
+    addItem(values: AddItemInput!): Item!
+    updateItem(values: UpdateItemInput!): Item!
+    deleteItem(itemId: Int!): Boolean!
   }
 `;

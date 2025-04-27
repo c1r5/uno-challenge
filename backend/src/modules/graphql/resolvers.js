@@ -1,30 +1,36 @@
+import { itemService } from "../item/application/services/item.service.js";
+import { itemRepository } from "../item/infra/repositories/item.repository.js";
+import itemDatasource from '../item/infra/db/db.js';
+
+const datasource = itemDatasource('db.json')
+datasource.initialize()
+
+const item_repository = itemRepository(datasource);
+const item_service = itemService(item_repository)
 
 /**
- * 
- * @param {IItemService} service 
- * @returns {Resolver}
+ * @type {Resolver} 
  */
-const generateResolvers = (service) => ({
+const resolvers = {
   Query: {
-    getTodoList: async function (filter, listId) {
-      const items = await service.get_todolist({ filter, listId })
-      return items
+    getTodoList: async (_, { filter }) => {
+      return item_service.get_todolist(filter);
     }
   },
+
   Mutation: {
-    addItem: async function (values, listId) {
-      const item = await service.add_item({ value: values, listId })
-      return item
+    addItem: async (_, { values }) => {
+      return item_service.add_item(values);
     },
-    updateItem: async function (values, listId) {
-      const item = await service.update_item({ value: values, listId })
-      return item
+    updateItem: async (_, { values }) => {
+      return item_service.update_item(values);
     },
-    deleteItem: async function (id, listId) {
-      const result = await service.delete_item({ itemId: id, listId })
-      return result
+    deleteItem: async (_, { itemId }) => {
+      return item_service.delete_item(itemId)
     }
   }
-})  
+}
 
-export { generateResolvers }
+export {
+  resolvers
+}

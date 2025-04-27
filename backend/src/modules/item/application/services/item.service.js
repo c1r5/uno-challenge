@@ -1,45 +1,24 @@
+import { name_validation } from "../../domain/validate_item.js";
+
 /**
- * @implements {IItemService}
+ * 
+ * @param {ItemRepository} repository 
+ * @returns {ItemService}
  */
-export class ItemService {
-  /**
-   * @param {IItemRepository} repository
-   */
-  constructor(repository) {
-    this.repository = repository;
-  }
+export const itemService = (repository) => ({
+  get_todolist: function (filter = null) {
+    return repository.find(filter);
+  },
+  add_item: function (item) {
+    name_validation(item)
 
-  /**
-   * @param {{ filter: ?Filter, listId: number }} params
-   * @returns {Promise<Item[]>}
-   */
-  async get_todolist({ filter, listId }) {
-    return this.repository.find(filter, listId);
+    return repository.insert(item);
+  },
+  update_item: function (item) {
+    name_validation(item)
+    return repository.update(item);
+  },
+  delete_item: function (itemId) {
+    return repository.delete(itemId);
   }
-
-  /**
-   * @param {{ value: Item, listId: number }} params
-   * @returns {Promise<Item>}
-   */
-  async add_item({ value, listId }) {
-    const items = await this.repository.insert(value, listId);
-    return items.find(i => i.id === value.id);
-  }
-
-  /**
-   * @param {{ value: Item, listId: number }} params
-   * @returns {Promise<Item>}
-   */
-  async update_item({ value, listId }) {
-    const items = await this.repository.update(value, listId);
-    return items.find(i => i.id === value.id);
-  }
-
-  /**
-   * @param {{ itemId: number, listId: number }} params
-   * @returns {Promise<boolean>}
-   */
-  async delete_item({ itemId, listId }) {
-    return this.repository.delete(itemId, listId);
-  }
-}
+});

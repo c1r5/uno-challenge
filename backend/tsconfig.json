@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "checkJs": true,
-    "allowJs": true
+    "allowJs": true,
+    
   },
   "include": [
-    "src/**/*"
-  ] // ajuste para sua pasta
+    "src/**/*.js"
+  ]
 }

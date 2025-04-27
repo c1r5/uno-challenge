@@ -1,58 +1,62 @@
 /**
- * @typedef {Object} IItemService
- * @property {(params: { filter: ?Filter, listId: number }) => Promise<Item[]>} get_todolist
- * @property {(params: { value: Item, listId: number }) => Promise<Item>} add_item
- * @property {(params: { value: Item, listId: number }) => Promise<Item>} update_item
- * @property {(params: { itemId: number, listId: number }) => Promise<boolean>} delete_item
+ * @typedef {Object} ItemService
+ * @property {(filter: Filter) => Promise<Item[]>} get_todolist
+ * @property {(item: Item) => Promise<Item>} add_item
+ * @property {(item: Item) => Promise<Item>} update_item
+ * @property {(itemId: number) => Promise<boolean>} delete_item
  */
 
 /**
- * @typedef {Object} IItemRepository
- * @property {(filter: ?Filter, listId: number) => Promise<Item[]>} find
- * @property {(value: Item, listId: number) => Promise<Item[]>} insert
- * @property {(value: Item, listId: number) => Promise<Item[]>} update
- * @property {(itemId: number, listId: number) => Promise<boolean>} delete
+ * @typedef {Object} ItemRepository
+ * @property {(filter: Filter) => Promise<Item[]>} find
+ * @property {(item: Item) => Promise<Item>} insert
+ * @property {(item: Item) => Promise<Item>} update
+ * @property {(itemId: number) => Promise<boolean>} delete
  */
 
 /**
- * @typedef {Record<string, TodoList>} Datasource
- */
-
-/**
- * @typedef {Object} TodoList
- * @property {number} id
- * @property {Date} createdAt
- * @property {Date} updatedAt
- * @property {Item[]} items
- */
-
-
-/**
- * @typedef {Object} Filter
- * @property {number} [id]
- * @property {string} [prefix]
+ * @typedef {Object} Datasource
+ * @property {Item[]} todolist
+ * @property {() => Promise<Item[]>} get_todolist
+ * @property {() => void} initialize
+ * @property {() => void} persist
+ * 
  */
 
 /**
  * @typedef {Object} Item
- * @property {number} id
+ * @property {number} [itemId]
  * @property {string} name
- * @property {boolean} completed
- * @property {Date} createdAt
- * @property {Date} updatedAt
+ * @property {string} [description]
+ * @property {boolean} [completed]
+ * @property {Date} [createdAt]
+ * @property {Date} [updatedAt]
+ */
+
+/**
+ * @typedef {Object} Filter
+ * @property {number} [itemId]
+ * @property {string} [name]
+ */
+
+/**
+ * @typedef {Object} ItemInput
+ * @property {number} [itemId]
+ * @property {string} name
+ * @property {string} [description]
  */
 
 /**
  * @typedef {Object} Query
- * @property {(filter: ?Filter, listId: number) => Promise<Item[]>} getTodoList
+ * @property {(_: any, variables: {filter: Filter}) => Promise<Item[]>} getTodoList
  */
 
 /**
  * @typedef {Object} Mutation
- * @property {(value: Item, listId: number) => Promise<Item>} addItem
- * @property {(value: Item, listId: number) => Promise<Item>} updateItem
- * @property {(id: number, listId: number) => Promise<boolean>} deleteItem
- */ 
+ * @property {(_: any, variables: {values: ItemInput}) => Promise<Item>} addItem
+ * @property {(_: any, variables: {values: ItemInput}) => Promise<Item>} updateItem
+ * @property {(_: any, variables: {itemId: number}) => Promise<boolean>} deleteItem
+ */
 
 /**
  * @typedef {Object} Resolver
