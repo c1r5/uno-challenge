@@ -14,7 +14,8 @@ import { id_existence_check, name_existence_check, name_validation } from "../..
  * @param {Datasource} datasource - Fonte de dados utilizada para persistência.
  * @returns {ItemRepository}
  */
-export const itemRepository = (datasource) => {
+export function createItemRepository (datasource) {
+  const { todolist } = datasource;
   return {
     /**
      * Busca os itens da lista aplicando filtros opcionais.
@@ -23,8 +24,6 @@ export const itemRepository = (datasource) => {
      * @returns {Promise<Item[]>} Lista de itens filtrados ou todos os itens.
      */
     find: async function (filter) {
-      const todolist = await datasource.get_todolist();
-
       if (!filter) return todolist;
 
       return todolist
@@ -41,7 +40,6 @@ export const itemRepository = (datasource) => {
      */
     insert: async function (item) {
       const datetime_now = new Date();
-      const todolist = await datasource.get_todolist();
 
       /** @type {Item} */
       let new_item = {
@@ -59,7 +57,7 @@ export const itemRepository = (datasource) => {
       }
 
       todolist.push(new_item);
-      datasource.persist();
+      await datasource.persist();
 
       return new_item;
     },
@@ -72,7 +70,6 @@ export const itemRepository = (datasource) => {
      * @throws {Error} Se a lista estiver vazia ou o item não existir.
      */
     update: async function (item) {
-      const todolist = await datasource.get_todolist();
 
       if (!todolist.length) throw new Error('empty_list');
       if (!id_existence_check(item.itemId, todolist)) throw new Error('item_not_exists');
@@ -87,7 +84,7 @@ export const itemRepository = (datasource) => {
         updatedAt: new Date()
       };
 
-      datasource.persist();
+      await datasource.persist();
       return todolist[index];
     },
 
@@ -99,7 +96,6 @@ export const itemRepository = (datasource) => {
      * @throws {Error} Se a lista estiver vazia ou o item não existir.
      */
     delete: async function (itemId) {
-      const todolist = await datasource.get_todolist();
 
       if (!todolist.length) throw new Error('empty_list');
       if (!id_existence_check(itemId, todolist)) throw new Error('item_not_exists');
@@ -107,7 +103,7 @@ export const itemRepository = (datasource) => {
       const index = todolist.findIndex(item => item.itemId === itemId);
 
       todolist.splice(index, 1);
-      datasource.persist();
+      await datasource.persist();
 
       return true;
     }

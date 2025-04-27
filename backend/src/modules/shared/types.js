@@ -17,9 +17,8 @@
 /**
  * @typedef {Object} Datasource
  * @property {Item[]} todolist
- * @property {() => Promise<Item[]>} get_todolist
- * @property {() => void} initialize
- * @property {() => void} persist
+ * @property {() => Promise<void>} initialize
+ * @property {() => Promise<void>} persist
  * 
  */
 

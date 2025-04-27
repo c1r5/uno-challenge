@@ -14,7 +14,7 @@ import { readFile, writeFile } from 'node:fs/promises';
  * @param {string} file - Caminho do arquivo de persistência.
  * @returns {Datasource}
  */
-export default (file) => ({
+export const createDatasource = (file) => ({
   todolist: [],
 
   /**
@@ -26,23 +26,12 @@ export default (file) => ({
    */
   initialize: async function () {
     if (fs.existsSync(file)) {
-      const data = fs.readFileSync(file, 'utf-8');
+      const data = await readFile(file, 'utf-8');
       this.todolist = JSON.parse(data);
     } else {
       this.todolist = [];
-      this.persist();
+      await this.persist();
     }
-  },
-
-  /**
-   * Retorna a lista de tarefas atualizada a partir do arquivo.
-   * 
-   * @returns {Promise<Item[]>}
-   */
-  get_todolist: async function () {
-    const data = await readFile(file, 'utf8');
-    this.todolist = JSON.parse(data);
-    return this.todolist;
   },
 
   /**
