@@ -2,9 +2,9 @@
 
 /**
  * @param {ItemService} item_service
- * @returns {Promise<Resolver>}
+ * @returns {Resolver}
  */
-export const createResolvers = async (item_service) => {
+export const createResolvers = (item_service) => {
   return {
     Query: {
       getTodoList: async (_, { filter }) => {

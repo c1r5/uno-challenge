@@ -84,3 +84,5 @@ yarn start
 - [Validações de Itens - validate_item.js](./backend/src/modules/item/domain/validate_item.md)
 - [Utilitários de Itens - item.utils.js](./backend/src/modules/item/application/utils/item.utils.md)
 - [Tipos JSDoc - types.js](./backend/src/modules/shared/types.md)
+- [Serviço de Notificação - notification.service.js](./backend/src/modules/shared/application/services/notification-service.md)
+- [Gerenciador de Eventos - create-eventbus.js](./backend/src/modules/shared/application/events/create-eventbus.md)

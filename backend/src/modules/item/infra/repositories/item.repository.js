@@ -1,5 +1,5 @@
 import { getRandomInt } from "../../application/utils/item.utils.js";
-import { id_existence_check, name_existence_check, name_validation } from "../../domain/validate_item.js";
+import { id_existence_check, name_existence_check } from "../../domain/validate_item.js";
 
 /**
  * 
@@ -14,21 +14,28 @@ import { id_existence_check, name_existence_check, name_validation } from "../..
  * @param {Datasource} datasource - Fonte de dados utilizada para persistência.
  * @returns {ItemRepository}
  */
-export function createItemRepository (datasource) {
-  const { todolist } = datasource;
+export function createItemRepository(datasource) {
+  const todolist = datasource.getTodolist();
+
   return {
     /**
      * Busca os itens da lista aplicando filtros opcionais.
      * 
-     * @param {Filter} [filter] - Filtro opcional por nome ou itemId.
+     * @param {?Filter} [filter] - Filtro opcional
      * @returns {Promise<Item[]>} Lista de itens filtrados ou todos os itens.
+     * 
+     * Filtro:
+     * - Por nome
+     * - Por itemId
+     * - Por status (completed)
      */
-    find: async function (filter) {
-      if (!filter) return todolist;
+    find: async function (filter = null) {
+      if (!filter) return todolist
 
       return todolist
         .filter(item => filter.name ? item.name.includes(filter.name) : true)
-        .filter(item => filter.itemId ? item.itemId === filter.itemId : true);
+        .filter(item => filter.itemId ? item.itemId === filter.itemId : true)
+        .filter(item => filter.completed ? item.completed === filter.completed : true);
     },
 
     /**
@@ -57,7 +64,8 @@ export function createItemRepository (datasource) {
       }
 
       todolist.push(new_item);
-      await datasource.persist();
+
+      datasource.persist(todolist);
 
       return new_item;
     },
@@ -76,7 +84,7 @@ export function createItemRepository (datasource) {
 
       const index = todolist.findIndex(i => i.itemId === item.itemId);
 
-      todolist[index] = {
+      const updatedItem = {
         ...todolist[index],
         name: item.name || todolist[index].name,
         description: item.description,
@@ -84,7 +92,8 @@ export function createItemRepository (datasource) {
         updatedAt: new Date()
       };
 
-      await datasource.persist();
+      todolist[index] = updatedItem;
+      await datasource.persist(todolist);
       return todolist[index];
     },
 
@@ -103,8 +112,7 @@ export function createItemRepository (datasource) {
       const index = todolist.findIndex(item => item.itemId === itemId);
 
       todolist.splice(index, 1);
-      await datasource.persist();
-
+      await datasource.persist(todolist);
       return true;
     }
   };

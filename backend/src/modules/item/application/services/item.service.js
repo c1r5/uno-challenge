@@ -12,14 +12,36 @@ import { name_validation } from "../../domain/validate_item.js";
  * - delete_item(): Remove item por ID.
  * 
  * @param {ItemRepository} repository - Instância do repositório de itens.
+ * @param {EventBus} eventbus
  * @returns {ItemService}
  */
-export function createItemService(repository) {
+export function createItemService(repository, eventbus) {
   return {
+    /**
+     * Monitora as listas por itens não completados
+     * 
+     * @param {number} intervalMs Intervalo de tempo para obter os itens
+     */
+    monitor_pending_items: function (intervalMs = 60 * 1000) { // padrão: 1 minuto
+      console.log('[+] Monitorando itens pendentes.')
+      setInterval(async () => {
+
+        const pendingItems = await repository.find({
+          completed: true
+        });
+
+        if (pendingItems.length > 0) {
+          eventbus.publish('pendingItemsDetected', {
+            items: pendingItems
+          });
+        }
+      }, intervalMs);
+    },
+
     /**
      * Retorna a lista de tarefas, podendo aplicar filtros por nome ou ID.
      * 
-     * @param {Filter} [filter] - Filtro opcional.
+     * @param {Filter} [filter] Filtro opcional.
      * @returns {Promise<Item[]>}
      */
     get_todolist: function (filter = null) {
@@ -59,6 +81,5 @@ export function createItemService(repository) {
     delete_item: function (itemId) {
       return repository.delete(itemId);
     }
-
   }
 };
