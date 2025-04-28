@@ -18,9 +18,11 @@
 - Editar itens existentes.
 - Remover itens da lista.
 - Validar itens para evitar nomes duplicados ou campos vazios.
-- Filtrar itens por nome ou ID.
+- Filtrar itens por nome, ID, conclusão.
 - Persistência dos dados via arquivos JSON.
-
+- Adicionei um metodo para monitorar tarefas pendentes
+- Adicionei eventos para desacoplar e facilitar implementação de novas funcionalidades ( escalabilidade )
+- Adicionei um serviço de notificação que vai realizar ações de acordo com cada evento emitido.
 ---
 # Documentação backend
 
