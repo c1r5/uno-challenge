@@ -68,7 +68,9 @@ export function createItemService(repository, eventbus) {
      * @throws {Error} Se a validação do nome falhar.
      */
     update_item: function (item) {
-      name_validation(item);
+      if(item.name) {
+        name_validation(item)
+      }
       return repository.update(item);
     },
 
