@@ -12,6 +12,7 @@ export default `#graphql
   input Filter {
     itemId: Int
     name: String
+    completed: Boolean
   }
 
   input AddItemInput {

@@ -30,12 +30,14 @@ export function createItemRepository(datasource) {
      * - Por status (completed)
      */
     find: async function (filter = null) {
+
       if (!filter) return todolist
 
+
       return todolist
-        .filter(item => filter.name ? item.name.includes(filter.name) : true)
-        .filter(item => filter.itemId ? item.itemId === filter.itemId : true)
-        .filter(item => filter.completed ? item.completed === filter.completed : true);
+        .filter(item => filter.name != undefined ? item.name.includes(filter.name) : true)
+        .filter(item => filter.itemId != undefined ? item.itemId == filter.itemId : true)
+        .filter(item => filter.completed != undefined ? item.completed == filter.completed : true)
     },
 
     /**
