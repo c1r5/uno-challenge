@@ -51,10 +51,9 @@ const Title = styled.h1`
 
 export default function CheckboxList() {
   const [item, setItem] = useState("");
-  const [filter, setFilter] = useState("");
   const [error, setError] = useState("");
 
-  const { data, refetch } = useQuery(GET_TODO_LIST);
+  const { data } = useQuery(GET_TODO_LIST);
   const [getFilteredTodoList, { data: filteredData }] = useLazyQuery(GET_TODO_LIST);
 
   const [addItem] = useMutation(ADD_ITEM_MUTATION);
@@ -112,7 +111,7 @@ export default function CheckboxList() {
     setError("");
     try {
       await getFilteredTodoList({
-        variables: { filter: { name: filter } },
+        variables: { filter: { name: item } },
       });
     } catch (err) {
       setError(err?.message || "Erro ao filtrar itens.");
@@ -133,12 +132,6 @@ export default function CheckboxList() {
             variant="standard"
             error={!!error}
             helperText={error && "Corrija os erros para prosseguir."}
-          />
-          <TextField
-            label="Filtro por nome"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            variant="standard"
           />
           <ButtonGroup>
             <Button variant="contained" color="info" fullWidth onClick={handleFilter}>
