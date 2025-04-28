@@ -40,6 +40,8 @@ export function createDatasource(file) {
         todolist = [];
         await saveToFile();
       }
+
+      await this.synchronize()
       console.log('[+] Banco de dados inicializado:', todolist.length, 'itens.');
     },
 
@@ -66,8 +68,10 @@ export function createDatasource(file) {
      * @returns {Promise<void>}
      */
     async synchronize() {
-      todolist = await loadFromFile();
-      console.log('[+] Banco de dados sincronizado:', todolist.length, 'itens.');
+      console.log('[+] Sincronizando banco de dados a cada 5s')
+      setInterval(async () => {
+        todolist = await loadFromFile();
+      }, 5 * 1000)
     },
   };
 }

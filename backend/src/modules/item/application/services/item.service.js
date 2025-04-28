@@ -27,7 +27,7 @@ export function createItemService(repository, eventbus) {
       setInterval(async () => {
 
         const pendingItems = await repository.find({
-          completed: true
+          completed: false
         });
 
         if (pendingItems.length > 0) {

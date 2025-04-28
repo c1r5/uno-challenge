@@ -9,6 +9,8 @@ import { createNotificationService } from "./modules/shared/application/services
 
 async function bootstrap() {
   const datasource = createDatasource('db.json');
+  await datasource.initialize();
+
   const eventbus = createEventBus();
   const repository = createItemRepository(datasource);
   const service = createItemService(repository, eventbus);
@@ -18,7 +20,6 @@ async function bootstrap() {
   service.monitor_pending_items()
   createNotificationService(eventbus)
   
-  await datasource.initialize();
   await startServer(resolvers);
 }
 
