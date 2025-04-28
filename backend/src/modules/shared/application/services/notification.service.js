@@ -12,6 +12,6 @@ export function createNotificationService(eventbus) {
      * @type {PendingItemsPayload}
      */
     const { items } = payload;
-    console.log(`[Notificação] Foram detectados ${items.length} itens pendentes.`);
+    
   });
 }

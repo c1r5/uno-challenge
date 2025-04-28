@@ -6,7 +6,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import "./App.css";
-import List from "./list";
+import TodoListContainer from "./features/todo/TodoListContainer.js"
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URI,
@@ -30,7 +30,7 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <header className="App-header">
-          <List />
+          <TodoListContainer />
         </header>
       </div>
     </ApolloProvider>

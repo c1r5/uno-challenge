@@ -7,6 +7,8 @@ export const GET_TODO_LIST = gql`
       name
       description
       completed
+      createdAt
+      updatedAt
     }
   }
 `;
