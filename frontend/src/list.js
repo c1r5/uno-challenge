@@ -2,13 +2,12 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Alert } from "@mui/material";
 import { styled } from "styled-components";
-import { useMutation, useQuery } from "@apollo/client";
-import { ADD_ITEM_MUTATION, GET_TODO_LIST } from "./queries";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { ADD_ITEM_MUTATION, GET_TODO_LIST, DELETE_ITEM_MUTATION, UPDATE_ITEM_MUTATION } from "./queries";
 import { Delete, Edit } from "@mui/icons-material";
 import { useState } from "react";
-import { getOperationName } from "@apollo/client/utilities";
 
 const Container = styled.div`
   display: flex;
@@ -17,136 +16,181 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const ContainerTop = styled.form`
+const FormContainer = styled.form`
   display: flex;
-  background-color: #dcdcdc;
   flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-  gap: 10px;
-  border-radius: 5px;
+  background: #dcdcdc;
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 0.5rem;
 `;
 
-const ContainerList = styled.div`
-  display: flex;
+const ListContainer = styled.div`
   width: 600px;
-  background-color: #dcdcdc;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-  gap: 10px;
-  border-radius: 5px;
+  background: #dcdcdc;
+  padding: 1rem;
+  border-radius: 0.5rem;
 `;
-const ContainerListItem = styled.div`
-  background-color: #efefef;
-  padding: 10px;
-  border-radius: 5px;
+
+const ScrollContainer = styled.div`
+  background: #efefef;
+  padding: 1rem;
+  border-radius: 0.5rem;
   max-height: 400px;
-  overflow: auto;
+  overflow-y: auto;
 `;
 
-const ContainerButton = styled.div`
+const ButtonGroup = styled.div`
   display: flex;
-  justify-content: space-around;
-  gap: 10px;
+  gap: 1rem;
 `;
 
-const Title = styled.div`
-  font-weight: bold;
-  font-size: 28px;
+const Title = styled.h1`
+  margin-bottom: 1rem;
 `;
 
 export default function CheckboxList() {
   const [item, setItem] = useState("");
-  const { data } = useQuery(GET_TODO_LIST);
+  const [filter, setFilter] = useState("");
+  const [error, setError] = useState("");
+
+  const { data, refetch } = useQuery(GET_TODO_LIST);
+  const [getFilteredTodoList, { data: filteredData }] = useLazyQuery(GET_TODO_LIST);
 
   const [addItem] = useMutation(ADD_ITEM_MUTATION);
+  const [deleteItem] = useMutation(DELETE_ITEM_MUTATION);
+  const [updateItem] = useMutation(UPDATE_ITEM_MUTATION);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    await addItem({
-      variables: {
-        values: {
-          name: item,
-        },
-      },
-      awaitRefetchQueries: true,
-      refetchQueries: [getOperationName(GET_TODO_LIST)],
-    });
-    setItem("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!item.trim()) {
+      setError("O campo nome não pode estar vazio.");
+      return;
+    }
+
+    try {
+      await addItem({
+        variables: { values: { name: item } },
+        awaitRefetchQueries: true,
+        refetchQueries: [{ query: GET_TODO_LIST }],
+      });
+      setItem("");
+    } catch (err) {
+      setError(err?.message || "Erro ao adicionar item.");
+    }
   };
 
-  const onDelete = async (event) => {
-    console.log(onDelete);
-    // Aqui você irá implementar a chamada para o backend de remoção de item
+  const handleDelete = async (id) => {
+    setError("");
+    try {
+      await deleteItem({
+        variables: { itemId: id },
+        awaitRefetchQueries: true,
+        refetchQueries: [{ query: GET_TODO_LIST }],
+      });
+    } catch (err) {
+      setError(err?.message || "Erro ao deletar item.");
+    }
   };
 
-  const onUpdate = async (event) => {
-    console.log(onUpdate);
-    // Aqui você irá implementar a chamada para o backend de edição de item
+  const handleToggleCompleted = async (item) => {
+    setError("");
+    try {
+      await updateItem({
+        variables: { values: { itemId: item.itemId, completed: !item.completed } },
+        awaitRefetchQueries: true,
+        refetchQueries: [{ query: GET_TODO_LIST }],
+      });
+    } catch (err) {
+      setError(err?.message || "Erro ao atualizar item.");
+    }
   };
 
-  const onFilter = async (event) => {
-    console.log(onFilter);
-    // Aqui você irá implementar a chamada para o backend para fazer o filtro
+  const handleFilter = async () => {
+    setError("");
+    try {
+      await getFilteredTodoList({
+        variables: { filter: { name: filter } },
+      });
+    } catch (err) {
+      setError(err?.message || "Erro ao filtrar itens.");
+    }
   };
+
+  const todoList = filteredData?.getTodoList || data?.getTodoList || [];
 
   return (
     <Container>
-      <ContainerList>
+      <ListContainer>
         <Title>TODO LIST</Title>
-        <ContainerTop onSubmit={onSubmit}>
+        <FormContainer onSubmit={handleSubmit}>
           <TextField
-            id="item"
             label="Digite aqui"
             value={item}
-            type="text"
+            onChange={(e) => setItem(e.target.value)}
             variant="standard"
-            onChange={(e) => setItem(e?.target?.value)}
+            error={!!error}
+            helperText={error && "Corrija os erros para prosseguir."}
           />
-          <ContainerButton>
-            <Button
-              variant="contained"
-              sx={{ width: "100%" }}
-              color="info"
-              onClick={onFilter}
-            >
+          <TextField
+            label="Filtro por nome"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            variant="standard"
+          />
+          <ButtonGroup>
+            <Button variant="contained" color="info" fullWidth onClick={handleFilter}>
               Filtrar
             </Button>
-            <Button
-              variant="contained"
-              sx={{ width: "100%" }}
-              color="success"
-              type="submit"
-            >
+            <Button variant="contained" color="success" type="submit" fullWidth>
               Salvar
             </Button>
-          </ContainerButton>
-        </ContainerTop>
-        <List sx={{ width: "100%" }}>
-          <ContainerListItem>
-            {data?.todoList?.map((value, index) => {
-              return (
-                <ListItem
-                  key={index}
-                  disablePadding
-                  sx={{
-                    borderRadius: "5px",
-                    marginTop: "5px",
-                    marginBottom: "5px",
-                  }}
-                >
-                  <ListItemButton dense>
-                    <ListItemText id={index} primary={value?.name} />
-                    <Edit onClick={onUpdate} />
-                    <Delete onClick={onDelete} />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-          </ContainerListItem>
+          </ButtonGroup>
+        </FormContainer>
+        {error && (
+          <Alert severity="error" sx={{ marginTop: "10px" }}>
+            {error}
+          </Alert>
+        )}
+        <List>
+          <ScrollContainer>
+            {todoList.map((task) => (
+              <ListItem
+                key={task.itemId}
+                sx={{
+                  borderRadius: "5px",
+                  marginY: "5px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "10px",
+                }}
+              >
+                <div style={{ flex: 1 }}>
+                  <ListItemText
+                    primary={task.name}
+                    secondary={task.completed ? "Concluído" : "Pendente"}
+                  />
+                </div>
+                <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color={task.completed ? "success" : "warning"}
+                    onClick={() => handleToggleCompleted(task)}
+                  >
+                    {task.completed ? "Desmarcar" : "Concluir"}
+                  </Button>
+                  <Edit style={{ cursor: "pointer" }} onClick={() => console.log("Editar", task.itemId)} />
+                  <Delete style={{ cursor: "pointer" }} onClick={() => handleDelete(task.itemId)} />
+                </div>
+              </ListItem>
+            ))}
+          </ScrollContainer>
         </List>
-      </ContainerList>
+      </ListContainer>
     </Container>
   );
 }
