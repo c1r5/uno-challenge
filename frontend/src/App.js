@@ -9,8 +9,9 @@ import "./App.css";
 import List from "./list";
 
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_GRAPHQL_URI,
+  uri: process.env.REACT_APP_GRAPHQL_URI || "http://localhost:4000/graphql",
 });
+
 
 const authLink = setContext((_, { headers }) => {
   return {
