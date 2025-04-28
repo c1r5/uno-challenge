@@ -90,7 +90,7 @@ export function createItemRepository(datasource) {
         ...todolist[index],
         name: item.name || todolist[index].name,
         description: item.description,
-        completed: item.completed || todolist[index].completed,
+        completed: item.completed != undefined ? item.completed : todolist[index].completed,
         updatedAt: new Date()
       };
 

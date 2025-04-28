@@ -22,7 +22,7 @@ export function createItemService(repository, eventbus) {
      * 
      * @param {number} intervalMs Intervalo de tempo para obter os itens
      */
-    monitor_pending_items: function (intervalMs = 15 * 1000) { // padrão: 1 minuto
+    monitor_pending_items: function (intervalMs = 60 * 1000) { // padrão: 1 minuto
       console.log('[+] Monitorando itens pendentes.')
       setInterval(async () => {
 
