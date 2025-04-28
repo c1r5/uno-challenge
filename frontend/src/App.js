@@ -7,11 +7,13 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import "./App.css";
 import List from "./list";
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_GRAPHQL_URI || "http://localhost:4000/graphql",
+  uri: process.env.REACT_APP_GRAPHQL_URI,
 });
-
 
 const authLink = setContext((_, { headers }) => {
   return {

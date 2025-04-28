@@ -126,7 +126,7 @@ export default function CheckboxList() {
         <Title>TODO LIST</Title>
         <FormContainer onSubmit={handleSubmit}>
           <TextField
-            label="Digite aqui"
+            label="Nome da tarefa"
             value={item}
             onChange={(e) => setItem(e.target.value)}
             variant="standard"
