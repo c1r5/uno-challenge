@@ -4,14 +4,14 @@
 
 ## [Documentação backend](./backend/README.md)
 
-## Setup com Docker
-
-### Baixar
+## Baixar
 Clone o repositório:
 ```bash
 git clone https://github.com/c1r5/uno-challenge
 cd uno-challenge
 ```
+
+## Setup com Docker
 
 ### Construir e iniciar os containers
 Execute os comandos abaixo para construir e iniciar os containers Docker:
@@ -30,17 +30,11 @@ docker-compose down
 
 ## Setup sem Docker
 
-### Baixar
-Clone o repositório:
-```bash
-git clone https://github.com/c1r5/uno-challenge
-cd uno-challenge
-```
 ### Instalar dependências
 No frontend:
 ```bash
 cd frontend
-yarn install
+yarn build
 ```
 ---
 Variáveis de ambiente no frontend: 
@@ -63,8 +57,8 @@ yarn start
 ---
 No frontend
 ```bash
-cd frontend
-yarn start
+yarn global add serve
+serve -s build
 ```
 ---
 
