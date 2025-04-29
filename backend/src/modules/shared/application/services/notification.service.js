@@ -12,6 +12,7 @@ export function createNotificationService(eventbus) {
      * @type {PendingItemsPayload}
      */
     const { items } = payload;
-    
+
+    console.log(`[Notificação] Você tem ${items} tarefas pendentes.`)
   });
 }
