@@ -4,6 +4,11 @@
 
 ## [Documentação backend](./backend/README.md)
 
+## Setup com Docker
+
+
+
+## Setup sem Docker
 
 ### Baixar
 Clone o repositório:
@@ -42,6 +47,7 @@ cd frontend
 yarn start
 ```
 ---
-### Acesso
+
+## Acesso
 - Frontend: [Pagina do projeto](http://localhost:3000)
 - backend: [GraphQL Playground](http://localhost:4000/graphql)

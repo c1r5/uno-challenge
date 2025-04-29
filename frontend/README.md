@@ -1,6 +1,6 @@
 # Todo List Application - Documentação
 
-## 📄 Visão Geral
+## Visão Geral
 Aplicativo de lista de tarefas implementado com React, Apollo Client e Styled-components.
 Organizado em arquitetura Container/View + Hook Customizado.
 
@@ -10,7 +10,7 @@ Organizado em arquitetura Container/View + Hook Customizado.
 
 ---
 
-## 🔧 Estrutura de Pastas
+## Estrutura de Pastas
 
 ```bash
 /src
@@ -25,7 +25,7 @@ Organizado em arquitetura Container/View + Hook Customizado.
 
 ---
 
-## 📅 Componentes e Funções
+## Componentes e Funções
 
 ### 1. `TodoListContainer.jsx`
 - Integra o Hook `useTodoList` com a View.
@@ -71,7 +71,7 @@ Organizado em arquitetura Container/View + Hook Customizado.
 
 ---
 
-## 🔎 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - React 
 - Apollo Client 3+
@@ -81,7 +81,7 @@ Organizado em arquitetura Container/View + Hook Customizado.
 
 ---
 
-## ✨ Padrões Adotados
+## Padrões Adotados
 
 - **Separar responsabilidades** (Container vs View)
 - **Hooks customizados** para lógica de negócio
@@ -100,14 +100,12 @@ Estruturamos o frontend separando responsabilidades em Container, View e Hooks c
 - **TodoListContainer**: componente inteligente que conecta lógica e interface.
 - **TodoListView**: componente de apresentação puro, focado apenas em renderizar dados.
 - **useTodoList**: hook customizado contendo toda a lógica de negócio e integrações GraphQL.
-- **Styled Components**: padronização visual sem dependência de `sx` do Material UI.
 - **Apollo Client**: gerenciamento de estado remoto e mutations.
 - **Datasource**: persistência leve e segura através de chamadas GraphQL.
 
 ## Estratégias Técnicas
 
 - Adoção de arquitetura **Container/View** para clara separação de responsabilidades.
-- **Documentação via JSDoc** para funções e hooks.
 - **Design responsivo** usando Material UI e Styled Components combinados.
 - Controle de filtro, edição e conclusão com feedback visual imediato.
 - Priorização de simplicidade no fluxo de estado e minimização de dependências externas.

@@ -22,7 +22,7 @@ Implementei persistência em disco utilizando JSON como datasource.
 ---
 
 
-# 📚 Documentação por modulo
+# Documentação por modulo
 
 ## Módulos
 
