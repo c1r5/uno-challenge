@@ -5,11 +5,10 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import "./App.css";
 import TodoListContainer from "./features/todo/TodoListContainer.js"
 
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_GRAPHQL_URI,
+  uri: `${window.location.protocol}//${window.location.hostname}:4000/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -26,10 +25,24 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const appStyle = {
+    textAlign: 'center'
+  };
+
+  const appHeaderStyle = {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 'calc(10px + 2vmin)',
+    backgroundColor: '#212B36'
+  };
+
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <header className="App-header">
+      <div style={appStyle}>
+        <header style={appHeaderStyle}>
           <TodoListContainer />
         </header>
       </div>

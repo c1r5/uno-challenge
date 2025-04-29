@@ -2,7 +2,10 @@
   "name": "uno-challenge",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
+    "@babel/plugin-syntax-flow": "7.26.0",
+    "@babel/plugin-transform-react-constant-elements": "7.25.9",
     "@apollo/client": "^3.2.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",

@@ -6,7 +6,27 @@
 
 ## Setup com Docker
 
+### Baixar
+Clone o repositório:
+```bash
+git clone https://github.com/c1r5/uno-challenge
+cd uno-challenge
+```
 
+### Construir e iniciar os containers
+Execute os comandos abaixo para construir e iniciar os containers Docker:
+```bash
+docker-compose up --build
+```
+
+### Variáveis de ambiente
+Certifique-se de configurar as variáveis de ambiente no arquivo `.env` para o backend e frontend, conforme necessário.
+
+### Parar os containers
+Para parar os containers, execute:
+```bash
+docker-compose down
+```
 
 ## Setup sem Docker
 
