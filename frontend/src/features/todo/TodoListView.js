@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Checkbox, IconButton, Box, Typography } from "@mui/material";
+import { List, ListItem, ListItemText, Checkbox, IconButton, Box, Typography, TextField } from "@mui/material";
 
 import { Delete, Edit, Save } from "@mui/icons-material";
 
@@ -50,26 +50,23 @@ export default function TodoListView({
                 color="primary"
               />
               {isEditing ? (
-                <Box display="flex" flexDirection="column" flex={1}>
-                  <Typography
-                    variant="body2"
-                    contentEditable
-                    suppressContentEditableWarning
-                    onBlur={(e) => onEditChange(task.itemId, "name", e.target.innerText)}
-                    sx={{ mb: 1, background: "#fff", p: 0.5, borderRadius: 1 }}
-                  >
-                    {editState[task.itemId]?.name || ""}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    contentEditable
-                    suppressContentEditableWarning
-                    onBlur={(e) => onEditChange(task.itemId, "description", e.target.innerText)}
-                    sx={{ background: "#fff", p: 0.5, borderRadius: 1 }}
-                  >
-                    {editState[task.itemId]?.description || ""}
-                  </Typography>
+                <Box display="flex" flexDirection="column" flex={1} gap={1}>
+                  <TextField
+                    variant="standard"
+                    label="Nome"
+                    value={editState[task.itemId]?.name || ""}
+                    onChange={(e) => onEditChange(task.itemId, "name", e.target.value)}
+                    fullWidth
+                  />
+                  <TextField
+                    variant="standard"
+                    label="Descrição"
+                    value={editState[task.itemId]?.description || ""}
+                    onChange={(e) => onEditChange(task.itemId, "description", e.target.value)}
+                    fullWidth
+                  />
                 </Box>
+
               ) : (
                 <ListItemText
                   primary={

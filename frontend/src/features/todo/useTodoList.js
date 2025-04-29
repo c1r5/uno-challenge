@@ -60,19 +60,25 @@ export function useTodoList() {
         awaitRefetchQueries: true,
         refetchQueries: [{ query: GET_TODO_LIST }],
       });
+      await handleFilterItems(); // Refaz o filtro depois da mutation
     } catch (err) {
       setError(err?.message || "Erro ao atualizar status.");
     }
   };
 
+
   const handleFilterItems = async () => {
     setError("");
     try {
-      await getFilteredTodoList({ variables: { filter: { name: itemInput } } });
+      await getFilteredTodoList({
+        variables: { filter: { name: itemInput } },
+        fetchPolicy: "network-only", // <-- Força buscar do servidor sempre
+      });
     } catch (err) {
       setError(err?.message || "Erro ao filtrar itens.");
     }
   };
+
 
   const handleEditToggle = (task) => {
     setEditState((prev) => ({
